@@ -1,7 +1,13 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types';
 import invariant from 'invariant'
 import { renderCustomDefaultButton } from '../'
+
+
+const [isClient, setIsClient] = React.useState(false)
+React.useEffect(() => {
+  setIsClient(true)
+}, [])
 
 class CustomGoogleLogout extends Component {
   constructor(props, context) {
@@ -17,6 +23,9 @@ class CustomGoogleLogout extends Component {
   }
 
   signOut(e) {
+    if(!isClient){
+      return
+    }
     if (e) {
       e.preventDefault(); // to prevent submit if used within form
     }

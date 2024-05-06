@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant'
 
+const [isClient, setIsClient] = React.useState(false)
+React.useEffect(() => {
+    setIsClient(true)
+}, [])
+
 const insertGoogleScript = (documentRoot, id, handleClientLoad) => {
     //Check if script already present
     if (!documentRoot.getElementById(id)) {
@@ -17,11 +22,17 @@ const insertGoogleScript = (documentRoot, id, handleClientLoad) => {
 }
 
 // Loads auth2 library
-const handleClientLoad = (initGoogleClient) => () =>
+const handleClientLoad = (initGoogleClient) => () => {
+    if (!isClient) {
+        return
+    }
     window.gapi.load('auth2', initGoogleClient);
+}
 
 const initGoogleClientAPI = (params, onUpdateSigninStatus, onInitFailure) => () => {
-
+    if (!isClient) {
+        return
+    }
     const auth2 = window.gapi.auth2
     auth2.init(params).then(
         () => {

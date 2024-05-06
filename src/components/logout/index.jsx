@@ -4,11 +4,18 @@ import invariant from 'invariant'
 import {renderDefaultButton} from '../'
 import '../../styles.css'
 
+const [isClient, setIsClient] = React.useState(false)
+React.useEffect(() => {
+  setIsClient(true)
+}, [])
+
 class GoogleLogout extends Component {
   constructor(props, context) {
     super(props, context);
     this.signOut = this.signOut.bind(this);
   }
+
+
 
   componentWillMount() {
     invariant(
@@ -22,6 +29,10 @@ class GoogleLogout extends Component {
   }
 
   signOut(e) {
+    if(!isClient){
+      return
+    }
+
     if (e) {
       e.preventDefault(); // to prevent submit if used within form
     }

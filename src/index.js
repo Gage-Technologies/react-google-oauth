@@ -3,6 +3,7 @@ import _GoogleLogin from './components/login/'
 import _GoogleLogout from './components/logout/'
 import _CustomGoogleLogin from './components/customLogin/'
 import _CustomGoogleLogout from './components/customLogout/'
+import React from "react";
 
 export const GoogleAPI = _GoogleAPI
 export const GoogleLogin = _GoogleLogin
@@ -10,7 +11,17 @@ export const GoogleLogout = _GoogleLogout
 export const CustomGoogleLogin = _CustomGoogleLogin
 export const CustomGoogleLogout = _CustomGoogleLogout
 
+const [isClient, setIsClient] = React.useState(false)
+React.useEffect(() => {
+    setIsClient(true)
+}, [])
+
+
 export const googleGetAuthResponse =  () => {
+    if(!isClient) {
+        return
+    }
+
     let returnObj =  {}
 
     //Lib loaded
@@ -38,6 +49,9 @@ export const googleGetAuthResponse =  () => {
 }
 
 export const googleGetBasicProfil = () => {
+    if(!isClient) {
+        return
+    }
     let returnObj =  {}
     //Lib loaded
     if (window.gapi && window.gapi.auth2) {
